@@ -376,7 +376,8 @@ we can turn our attention to refactoring the part of the code responsible for ca
 
    As before, we will use `Extract Method` to move the logic of calculating the volume credits for a performance into a helper method.
 
-   Observe that the statements immediately following `// add volume credits` (including the `if` statement) update the volume credits for the current performance `p`. Our helper method will calculate and return the contribution from the current performance.
+   Observe that the statements immediately following `// add volume credits` (including the `if` statement) update the volume credits for the current performance `p`.
+9. Our helper method will calculate and return the contribution from the current performance.
 
    Highlight those lines of code related to volume credits then 
    right-click and choose `Refactor -> Extract Method`. **Use `getVolumeCredits` as the method name**.
@@ -386,7 +387,8 @@ we can turn our attention to refactoring the part of the code responsible for ca
    - to fix this, replace the `int volumeCredits` parameter with a local variable and initialize it to 0.
      This removes the dependency on the `volumeCredits` value from method `statement`,
      because the method now just returns the contribution from the current performance.
-   - you will need to update where you call method `getVolumeCredits` to make sure you're using `volumeCredit += ...`, as this refactoring step may have replaced that with just an assignment statement (`=` rather than `+=`).
+   - you will need to update where you call method `getVolumeCredits` to make sure you're using `volumeCredit += ...`,
+   - as this refactoring step may have replaced that with just an assignment statement (`=` rather than `+=`).
 
 9. **Rename a local variable.** 
    As before, rename the local variable in your `getVolumeCredits` helper to be `result`.
@@ -481,7 +483,8 @@ First, we will decouple the logic into three loops, then we will refactor using 
 ## Post Assignment Blurb
 
 At this point, we have done a substantial refactoring and can admire our progress!
-Our `statement` method is now just a handful of lines of code which are solely responsible for forming the string to be returned. All the actual computation is offloaded to our helper methods, and the code is much easier to understand at a glance.
+Our `statement` method is now just a handful of lines of code which are solely responsible for forming the string to be returned. 
+All the actual computation is offloaded to our helper methods, and the code is much easier to understand at a glance.
 
 For those interested, you can read more in the free textbook chapter, as the author says more
 about what we have accomplished so far with our refactoring.

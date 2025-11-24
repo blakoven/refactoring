@@ -313,10 +313,12 @@ IntelliJ Documentation: [Extract Method](https://www.jetbrains.com/help/idea/ext
 
 2. **Rename a local variable.**
    
-   Many programmers like to use `result` (or `rslt`) as the name for the variable used to hold the return value. The code currently uses `thisAmount`. Rename that local variable in your extracted method by right-clicking the variable name and choosing `Refactor -> Rename`. Notice that it updates it throughout the entire method!
+      Many programmers like to use `result` (or `rslt`) as the name for the variable used to hold the return value. 
+   The code currently uses `thisAmount`. Rename that local variable in your extracted method by right-clicking the variable name and choosing 
+   `Refactor -> Rename`. Notice that it updates it throughout the entire method!
    
-   - don't forget to fix any CodeStyle or SonarLint issues which may have popped up during this refactoring step!
-   - do the tests still run (`StatementPrinterTests`)?
+      - don't forget to fix any CodeStyle or SonarLint issues which may have popped up during this refactoring step!
+      - do the tests still run (`StatementPrinterTests`)?
 
 3. **Rename a parameter.**
 
@@ -324,18 +326,24 @@ IntelliJ Documentation: [Extract Method](https://www.jetbrains.com/help/idea/ext
 
 4. **Remove a parameter from the helper method.**
 
-   The extracted method header has two parameters, a `Performance` variable and a `Play` variable. The second parameter is unnecessary. Since we have a `Performance` object, we can always look up which `Play` object is associated with it using the `plays` instance variable, so it feels unnecessary to pass in both a `Performance` object and a `Play` object to our helper.
+   The extracted method header has two parameters, a `Performance` variable and a `Play` variable. 
+5. The second parameter is unnecessary. Since we have a `Performance` object, we can always look up which `Play` 
+6. object is associated with it using the `plays` instance variable, so it feels unnecessary to pass in both a `Performance` 
+7. object and a `Play` object to our helper.
 
    We'll apply _Replace Temp with Query_ to stop using the parameter. This happens in 2 steps: _Extract Method_, followed by _Inline Variable_.
    
    1. **Create another tiny helper method and call it `getPlay`.**
 
-      Select the expression on the right-hand side of the initialization for variable `play` in the for loop in method `statement`, then use _Extract Method_. Name it `getPlay`.
+      Select the expression on the right-hand side of the initialization for variable `play` in the for loop in method 
+   2. `statement`, then use _Extract Method_. Name it `getPlay`.
 
    2. **Remove a local variable.**
 
-      Select that same `play` variable in method `statement` and choose Refactor->Inline Variable. This will replace all occurrences of variable `play` in method `statement` with a call to `getPlay`.
-      > If you don't see the `Inline Variable` option, you can use the keyboard shortcut Cmd+Option+N on Mac (Ctrl+Alt+N on Windows) as documented [here](https://www.jetbrains.com/help/idea/inline.html).
+      Select that same `play` variable in method `statement` and choose Refactor->Inline Variable. 
+   3. This will replace all occurrences of variable `play` in method `statement` with a call to `getPlay`.
+      > If you don't see the `Inline Variable` option, you can use the keyboard shortcut Cmd+Option+N on Mac 
+      > (Ctrl+Alt+N on Windows) as documented [here](https://www.jetbrains.com/help/idea/inline.html).
 
    3. **Remove a parameter.**
    
@@ -344,7 +352,8 @@ IntelliJ Documentation: [Extract Method](https://www.jetbrains.com/help/idea/ext
       a. Variable `play` is used twice in the method. Replace both of them with a call to the new helper `getPlay`.
  
       b. Now variable `play` is no longer used in the method body for `getAmount`.
-         Update your first helper method, along with your call to it, such that it only takes a `Performance` object as a parameter. In IntelliJ, use the `Refactor->Change Signature` refactoring and deleting the second parameter. Right-click on the method header to open the menu.
+         Update your first helper method, along with your call to it, such that it only takes a `Performance` object as a parameter. In IntelliJ,
+   4. use the `Refactor->Change Signature` refactoring and deleting the second parameter. Right-click on the method header to open the menu.
    
    - That was big! Make sure the tests still run (`StatementPrinterTests`), and **commit your work**.
 

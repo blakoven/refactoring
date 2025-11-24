@@ -34,20 +34,19 @@ public class StatementPrinter {
         final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Performance p : invoice.getPerformances()) {
-            final Play play = plays.get(p.getPlayID());
 
-            final int thisAmount = getAmount(p, play, trad, band, thre);
+            final int thisAmount = getAmount(p, getPlay(p), trad, band, thre);
 
             // add volume credits
             volumeCredits += Math.max(p.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
             // add extra credit for every five comedy attendees
-            if ("comedy".equals(play.getType())) {
+            if ("comedy".equals(getPlay(p).getType())) {
                 volumeCredits += p.getAudience()
                         / Constants.COMEDY_EXTRA_VOLUME_FACTOR;
             }
 
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)%n", play.getName(),
+            result.append(String.format("  %s: %s (%s seats)%n", getPlay(p).getName(),
                     frmt.format(thisAmount / bill), p.getAudience()));
             totalAmount += thisAmount;
         }
@@ -56,9 +55,13 @@ public class StatementPrinter {
         return result.toString();
     }
 
-    private static int getAmount(Performance per, Play play, int trad, int band, int thre) {
+    private Play getPlay(Performance per) {
+        return plays.get(per.getPlayID());
+    }
+
+    private int getAmount(Performance per, Play play, int trad, int band, int thre) {
         int thisBread = 0;
-        switch (play.getType()) {
+        switch (getPlay(per).getType()) {
             case "tragedy":
                 thisBread = trad;
                 if (per.getAudience() > Constants.TRAGEDY_AUDIENCE_THRESHOLD) {
@@ -75,7 +78,7 @@ public class StatementPrinter {
                 thisBread += Constants.COMEDY_AMOUNT_PER_AUDIENCE * per.getAudience();
                 break;
             default:
-                throw new RuntimeException(String.format("unknown type: %s", play.getType()));
+                throw new RuntimeException(String.format("unknown type: %s", getPlay(per).getType()));
         }
         return thisBread;
     }

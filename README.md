@@ -357,7 +357,9 @@ IntelliJ Documentation: [Extract Method](https://www.jetbrains.com/help/idea/ext
    
    - That was big! Make sure the tests still run (`StatementPrinterTests`), and **commit your work**.
 
-5. The last step is to look back at how the result of our call to this helper is actually used in the `statement` method. It turns out we are storing the value in a local variable for convenience, but the code is arguably easier to understand if we again apply the `Inline Variable` refactoring. In IntelliJ, right-click the `thisAmount` variable and choose `Refactor -> Inline Variable`.
+5. The last step is to look back at how the result of our call to this helper is actually used in the `statement` method.
+6. It turns out we are storing the value in a local variable for convenience, but the code is arguably easier to understand if we again apply the `Inline Variable` refactoring. 
+7. In IntelliJ, right-click the `thisAmount` variable and choose `Refactor -> Inline Variable`.
 6. do the tests still run (`StatementPrinterTests`)?
 7. Update your `log.txt` file and commit your changes.
   Make sure to include the string `Task 2.1` in your commit message.

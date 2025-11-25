@@ -25,19 +25,22 @@ public class StatementPrinter {
         final int trad = 40000;
         final int band = 1000;
         final int thre = 30;
-        int totalAmount = 0;
+
         int volumeCredits = 0;
+        for (Performance p : invoice.getPerformances()) {
+            volumeCredits += getVolumeCredits(p);
+        }
+
+        int totalAmount = 0;
+        for (Performance p : invoice.getPerformances()) {
+            totalAmount += getAmount(p, getPlay(p), trad, band, thre);
+        }
+
         final StringBuilder result =
                 new StringBuilder("Statement for " + invoice.getCustomer() + System.lineSeparator());
 
         for (Performance p : invoice.getPerformances()) {
-            volumeCredits += getVolumeCredits(p);
-        }
-        for (Performance p : invoice.getPerformances()) {
-            totalAmount += getAmount(p, getPlay(p), trad, band, thre);
-        }
-        for (Performance p : invoice.getPerformances()) {
-            result.append(String.format(" %s: %s (%s seats)%n",
+            result.append(String.format("  %s: %s (%s seats)%n",
                     getPlay(p).getName(),
                     usd(getAmount(p, getPlay(p), trad, band, thre)),
                     p.getAudience()));

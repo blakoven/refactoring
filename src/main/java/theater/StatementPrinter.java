@@ -31,19 +31,19 @@ public class StatementPrinter {
                 new StringBuilder("Statement for " + invoice.getCustomer() + System.lineSeparator());
 
         for (Performance p : invoice.getPerformances()) {
-
-            // add volume credits
             volumeCredits += getVolumeCredits(p);
-
-            // print line for this order
-            result.append(String.format("  %s: %s (%s seats)%n",
+        }
+        for (Performance p : invoice.getPerformances()) {
+            totalAmount += getAmount(p, getPlay(p), trad, band, thre);
+        }
+        for (Performance p : invoice.getPerformances()) {
+            result.append(String.format(" %s: %s (%s seats)%n",
                     getPlay(p).getName(),
                     usd(getAmount(p, getPlay(p), trad, band, thre)),
                     p.getAudience()));
-            totalAmount += getAmount(p, getPlay(p), trad, band, thre);
         }
-        result.append(String.format("Amount owed is %s%n",
-                usd(totalAmount)));
+
+        result.append(String.format("Amount owed is %s%n", usd(totalAmount)));
         result.append(String.format("You earned %s credits%n", volumeCredits));
         return result.toString();
     }

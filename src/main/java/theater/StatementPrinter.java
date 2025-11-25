@@ -26,11 +26,6 @@ public class StatementPrinter {
         final int band = 1000;
         final int thre = 30;
 
-        int totalAmount = 0;
-        for (Performance p : invoice.getPerformances()) {
-            totalAmount += getAmount(p, getPlay(p), trad, band, thre);
-        }
-
         final StringBuilder result =
                 new StringBuilder("Statement for " + invoice.getCustomer() + System.lineSeparator());
 
@@ -41,9 +36,17 @@ public class StatementPrinter {
                     p.getAudience()));
         }
 
-        result.append(String.format("Amount owed is %s%n", usd(totalAmount)));
+        result.append(String.format("Amount owed is %s%n", usd(getTotalAmount(trad, band, thre))));
         result.append(String.format("You earned %s credits%n", getTotalVolumeCredits()));
         return result.toString();
+    }
+
+    private int getTotalAmount(int trad, int band, int thre) {
+        int result = 0;
+        for (Performance p : invoice.getPerformances()) {
+            result += getAmount(p, getPlay(p), trad, band, thre);
+        }
+        return result;
     }
 
     private int getTotalVolumeCredits() {
